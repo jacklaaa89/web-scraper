@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="row">
+            <div class="col-lg-offset-3 col-lg-6" style="margin-top: 10%">
+                <div class="well well-lg">
+                    <form method="post" style="margin-bottom: 0;">
+                        <div class="form-group">
+                            <label for="url">URL</label>
+                            <input type="url" class="form-control" name="url" required/>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <input type="submit" class="btn btn-sm" value="Load"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row result-row" style="margin-top: 5%; display: none;">
+            <div class="col-lg-offset-3 col-lg-6">
+                <div class="well well-lg">
+                    <h4>Results for: <span id="url"></span></h4>
+                    <code></code>
+                </div>
+            </div>
+        </div>
+        <script
+                src="https://code.jquery.com/jquery-3.2.1.min.js"
+                integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+                crossorigin="anonymous"></script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="/js/index.js"></script>
+    </body>
+</html>

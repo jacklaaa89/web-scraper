@@ -1,0 +1,27 @@
+{
+    "name": "jacktimblin/web-scraper",
+    "description": "Simple Application for retrieving information regarding a URL.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jack Timblin",
+            "email": "jacktimblin@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Example\\": "src/",
+            "Example\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "slim/slim": "^3.8",
+        "monolog/monolog": "^1.23",
+        "twig/twig": "^2.4",
+        "slim/twig-view": "^2.2",
+        "fabpot/goutte": "^3.2",
+        "phpunit/phpunit": "^6.2"
+    }
+}

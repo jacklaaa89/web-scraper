@@ -1,0 +1,10 @@
+version: '2'
+services:
+  dashboard:
+      image: web-scraper:latest
+      expose:
+          - "9000"
+      ports:
+          - "80:80"
+      volumes:
+          - ../:/data/web-scraper
