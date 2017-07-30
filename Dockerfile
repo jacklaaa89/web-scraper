@@ -29,6 +29,9 @@ COPY vagrant/xdebug.ini /data/xdebug.ini
 #do a -v .:/data/dashboard to use local dashboard.
 ADD . /data/web-scraper
 
+#Add cache directory and set permissions.
+RUN mkdir -p /data/web-scraper/cache && chmod 0777 /data/web-scraper/cache
+
 # Install and run composer.
 RUN set -xe && \
     apk add --no-cache --virtual .build-deps git curl php7-phar php7-openssl php7-zlib && \
