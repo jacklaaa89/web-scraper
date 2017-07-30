@@ -56,7 +56,7 @@ class IndexController extends Controller
         }
 
         //Scrape the provided URL
-        $crawler = new Crawler();
+        $crawler = $this->getCrawler();
         try {
             $crawler->load($url);
         } catch (Exception $exception) {
@@ -81,6 +81,9 @@ class IndexController extends Controller
             'message' => $message
         ];
 
-        return $this->getResponse()->withJson($error, 500);
+        /** @var SlimResponse $response */
+        $response = $this->getResponse();
+
+        return $response->withJson($error, 500);
     }
 }

@@ -30,7 +30,7 @@ COPY vagrant/xdebug.ini /data/xdebug.ini
 ADD . /data/web-scraper
 
 #Add cache directory and set permissions.
-RUN mkdir -p /data/web-scraper/cache && chmod 0777 /data/web-scraper/cache
+RUN mkdir -p /data/web-scraper/cache && chmod -R 0777 /data/web-scraper/cache
 
 # Install and run composer.
 RUN set -xe && \

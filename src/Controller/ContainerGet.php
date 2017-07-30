@@ -2,6 +2,7 @@
 
 namespace Example\Controller;
 
+use Example\Util\Crawler;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Views\Twig;
 
@@ -32,6 +33,14 @@ trait ContainerGet
     public function getResponse(): ResponseInterface
     {
         return $this->get(Constants::RESPONSE);
+    }
+
+    /**
+     * @return Crawler
+     */
+    public function getCrawler(): Crawler
+    {
+        return $this->get(Constants::CRAWLER);
     }
 
     /**

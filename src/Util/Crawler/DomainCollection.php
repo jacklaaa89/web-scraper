@@ -2,6 +2,7 @@
 
 namespace Example\Util\Crawler;
 
+use Countable;
 use JsonSerializable;
 
 /**
@@ -9,7 +10,7 @@ use JsonSerializable;
  *
  * @package Example\Util\Crawler
  */
-final class DomainCollection implements JsonSerializable
+final class DomainCollection implements JsonSerializable, Countable
 {
     /** @var Domain[] */
     private $_domains = [];
@@ -77,5 +78,13 @@ final class DomainCollection implements JsonSerializable
     function jsonSerialize()
     {
         return $this->_domains;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count()
+    {
+        return count($this->_domains);
     }
 }

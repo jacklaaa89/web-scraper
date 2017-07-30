@@ -45,4 +45,15 @@ trait ContainerAwareTrait
     {
         return $this->getContainer()->get($service);
     }
+
+    /**
+     * Sets a service in the container.
+     *
+     * @param string $service
+     * @param mixed $definition
+     */
+    public final function set(string $service, $definition)
+    {
+        $this->container[$service] = $definition;
+    }
 }

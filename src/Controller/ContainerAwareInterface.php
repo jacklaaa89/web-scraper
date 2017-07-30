@@ -33,4 +33,12 @@ interface ContainerAwareInterface
      * @return object|null
      */
     public function get(string $service);
+
+    /**
+     * Sets a service in the container.
+     *
+     * @param string $service
+     * @param mixed $definition
+     */
+    public function set(string $service, $definition);
 }

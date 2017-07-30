@@ -1,15 +1,13 @@
 <?php
 
-use Example\Controller\Constants;
 use Example\Util\Config;
+use Example\Util\Crawler;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\FingersCrossedHandler;
 use Monolog\Handler\StreamHandler;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Slim\Views\Twig;
 use Monolog\Logger;
-use Slim\Views\TwigExtension;
 
 /**
  * The service definition uses the ArrayServiceProvider to inject these services into
@@ -28,16 +26,6 @@ return [
             $configuration->get('twig.environment')
         );
 
-        /** @var ServerRequestInterface $request */
-        $request = $container->get(Constants::REQUEST);
-
-        // Instantiate and add Slim specific extension
-        $basePath = rtrim(
-            str_ireplace('index.php', '', $request->getUri()->getBasePath()),
-            '/'
-        );
-        $twig->addExtension(new TwigExtension($container->get(Constants::ROUTER), $basePath));
-
         return $twig;
     },
     /**
@@ -55,5 +43,8 @@ return [
         $logger->pushHandler($fingersCrossedHandler);
 
         return $logger;
+    },
+    'crawler' => function (ContainerInterface $container, Config $configuration) {
+        return new Crawler();
     }
 ];

@@ -47,3 +47,26 @@ vagrant up
 Then navigate to: http://10.55.101.10
 
 Currently this setup only supports VirtualBox as its provider.
+
+####Testing
+
+You can run unit tests by running the command:
+```
+cd /path/to/repo
+vendor/bin/phpunit -c phpunit.xml --stderr
+```
+
+There are filter commands for each test in the test suite for running individual tests.
+
+#####Code Coverage
+
+The code has got 100% test coverage. 
+
+You can run the code-coverage command with:
+```
+cd /path/to/repo
+vendor/bin/phpunit -c phpunit.xml --stderr --coverage-html /path/to/coverage/files
+```
+
+To run code coverage tests a coverage driver has to be installed on your local machine.
+The typical driver which is used is Xdebug.

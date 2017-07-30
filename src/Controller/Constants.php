@@ -22,4 +22,7 @@ interface Constants
 
     /** @const string */
     const RESPONSE = 'response';
+
+    /** @const string */
+    const CRAWLER = 'crawler';
 }

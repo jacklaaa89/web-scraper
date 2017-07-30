@@ -47,7 +47,7 @@ class Crawler implements JsonSerializable
     public function load(string $url)
     {
         $client = new Client();
-        $client->setClient($this->_getGuzzleClient());
+        $client->setClient($this->getGuzzleClient());
         $this->_internalCrawler = $client->request('GET', $url);
         $this->_url = $url;
     }
@@ -56,8 +56,12 @@ class Crawler implements JsonSerializable
      * initialises a guzzle client which captures the response.
      *
      * @return GuzzleClient
+     *
+     * @codeCoverageIgnore
+     *
+     * We cannot test this method as we are not making live requests to urls during tests.
      */
-    private function _getGuzzleClient(): GuzzleClient
+    protected function getGuzzleClient(): GuzzleClient
     {
         $stack = new HandlerStack();
         $stack->setHandler(new CurlHandler());
@@ -67,9 +71,21 @@ class Crawler implements JsonSerializable
     }
 
     /**
+     * @param Request $request
+     */
+    protected function setRequest(Request $request)
+    {
+        $this->_request = $request;
+    }
+
+    /**
      * Gets the request handler which captures the request from a guzzle request.
      *
      * @return Closure
+     *
+     * @codeCoverageIgnore
+     *
+     * We cannot test this method as we are not making live requests to urls during tests.
      */
     private function _requestHandler()
     {
@@ -79,7 +95,7 @@ class Crawler implements JsonSerializable
                 RequestInterface $request,
                 array $options
             ) use ($handler, $crawler) {
-                $crawler->_request = $request;
+                $crawler->setRequest($request);
 
                 return $handler($request, $options);
             };
@@ -174,7 +190,7 @@ class Crawler implements JsonSerializable
         $results = $scripts->each(function (InternalCrawler $script) {
             $scriptContent = $script->text();
             foreach (Crawler::GA_TAGS as $tag) {
-                if (stristr($scriptContent, $tag)) {
+                if (stristr($scriptContent, $tag) !== false) {
                     return true;
                 }
             }

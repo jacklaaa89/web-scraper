@@ -11,7 +11,7 @@ return [
             'cache' => APP_PATH . '/cache/twig',
             'auto_reload' => true,
             'strict_variables' => true,
-            'autoescape' => true,
+            'autoescape' => 'name',
             'debug' => false
         ]
     ],
