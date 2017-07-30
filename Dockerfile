@@ -21,7 +21,8 @@ RUN set -xe && \
         php7-simplexml \
         php7-dom \
         php7-tokenizer \
-        php7-ctype
+        php7-ctype \
+        php7-xmlwriter
 
 COPY vagrant/xdebug.ini /data/xdebug.ini
 
