@@ -39,9 +39,9 @@ final class DomainCollection implements JsonSerializable, Countable
      *
      * @param string $domain
      *
-     * @return Domain
+     * @return Domain|null
      */
-    public function getDomain(string $domain): Domain
+    public function getDomain(string $domain)
     {
         if (!array_key_exists($domain, $this->_domains)) {
             return null;

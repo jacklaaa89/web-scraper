@@ -58,7 +58,7 @@ final class Domain implements JsonSerializable
      */
     public function getLinks(): array
     {
-        return array_unique($this->_links);
+        return array_values(array_unique($this->_links));
     }
 
     /**

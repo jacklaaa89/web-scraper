@@ -1,8 +1,9 @@
 <?php
 
-namespace Example\Tests\Util\Crawler;
+namespace Example\Tests\Util;
 
 use Example\Util\Crawler;
+use Exception;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
@@ -30,17 +31,25 @@ class TestCrawler extends Crawler
     /** @var Response */
     private $response;
 
+    /** @var Exception */
+    private $exceptionToThrow;
+
     /**
      * TestCrawler constructor.
      *
-     * @param bool   $useSecureProtocol
-     * @param string $responseBody
+     * @param bool      $useSecureProtocol
+     * @param string    $responseBody
+     * @param Exception $exceptionToThrow
      */
-    public function __construct(bool $useSecureProtocol, string $responseBody)
+    public function __construct(
+        bool $useSecureProtocol,
+        string $responseBody,
+        Exception $exceptionToThrow = null)
     {
         $protocol = $useSecureProtocol ? self::PROTOCOL_HTTPS : self::PROTOCOL_HTTP;
         $this->requestUri = $protocol . self::REQUEST_URI_SUFFIX;
         $this->response = new Response(200, [], $responseBody);
+        $this->exceptionToThrow = $exceptionToThrow;
     }
 
     /**
@@ -62,8 +71,13 @@ class TestCrawler extends Crawler
         $guzzleClient = Mockery::mock(GuzzleClient::class)->makePartial();
         $this->setRequest(new Request('GET', $this->requestUri));
 
-        $guzzleClient->shouldReceive('request')->andReturn($this->response);
+        $expectation = $guzzleClient->shouldReceive('request')
+            ->andReturn($this->response);
 
-        return $guzzleClient;
+        if ($this->exceptionToThrow != null) {
+            $expectation->andThrow($this->exceptionToThrow);
+        }
+
+        return $expectation->getMock();
     }
 }

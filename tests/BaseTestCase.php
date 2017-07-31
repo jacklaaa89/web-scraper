@@ -6,6 +6,7 @@ use Example\Controller\Constants;
 use Example\Controller\ContainerAwareInterface;
 use Example\Controller\ContainerGet;
 use Example\Core\Application;
+use Example\Core\RouteCollection;
 use Example\Provider\ArrayServiceProvider;
 use Example\Util\Config;
 use Mockery;
@@ -22,6 +23,33 @@ use Slim\Http\Response;
  */
 abstract class BaseTestCase extends TestCase implements ContainerAwareInterface
 {
+    /** @const string */
+    const VIEW_WITH_TWO_LINKS_WITH_GOOGLE_ANALYTICS = 'test/two_links_with_ga.twig';
+
+    /** @const array */
+    const EXPECTED_JSON_SERIALIZE_RESULT = [
+        'domains' => self::EXPECTED_DOMAIN_LIST_NO_LINKS,
+        'isGoogleAnalyticsPresent' => true,
+        'title' => 'Test Content',
+        'linkCount' => 2,
+        'wasSecure' => true
+    ];
+
+    /** @const array */
+    const EXPECTED_DOMAIN_LIST_NO_LINKS = [
+        self::EXPECTED_DOMAIN,
+        'www.test-domain.com'
+    ];
+
+    /** @const array */
+    const EMPTY_SET = [];
+
+    /** @const string */
+    const EXPECTED_DOMAIN = 'www.test-request.com';
+
+    /** @const string */
+    const EXPECTED_LINK = self::EXPECTED_DOMAIN . '/link';
+
     use ContainerGet;
 
     /** @var Application */
@@ -84,6 +112,9 @@ abstract class BaseTestCase extends TestCase implements ContainerAwareInterface
         //register our services into the container.
         $provider = new ArrayServiceProvider(require APP_PATH . '/app/services.php');
         $application->registerServiceProvider($provider);
+
+        $routeCollection = new RouteCollection(require APP_PATH . '/app/routes.php');
+        $application->registerRoutes($routeCollection);
 
         return $application;
     }

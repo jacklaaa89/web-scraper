@@ -1,6 +1,6 @@
 <?php
 
-namespace Example\Tests\Util\Crawler;
+namespace Example\Tests\Util;
 
 use Example\Tests\BaseTestCase;
 use Example\Util\Crawler;
@@ -22,24 +22,6 @@ class CrawlerTest extends BaseTestCase
 
     /** @const string */
     const VIEW_WITH_TWO_LINKS_NO_GOOGLE_ANALYTICS = 'test/two_links_no_ga.twig';
-
-    /** @const string */
-    const VIEW_WITH_TWO_LINKS_WITH_GOOGLE_ANALYTICS = 'test/two_links_with_ga.twig';
-
-    /** @const array */
-    const EXPECTED_DOMAIN_LIST_NO_LINKS = [
-        'www.test-request.com',
-        'www.test-domain.com'
-    ];
-
-    /** @const array */
-    const EXPECTED_JSON_SERIALIZE_RESULT = [
-        'domains' => self::EXPECTED_DOMAIN_LIST_NO_LINKS,
-        'isGoogleAnalyticsPresent' => true,
-        'title' => 'Test Content',
-        'linkCount' => 2,
-        'wasSecure' => true
-    ];
 
     /**
      * Gets the test crawler.

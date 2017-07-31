@@ -28,7 +28,7 @@ To run on docker, execute:
 ```
 cd /path/to/repo
 docker build -t webscraper:latest .
-docker run -d -p 8080:80 webscraper:latest
+docker run -d -p 8080:80 --name scraper webscraper:latest
 ```
 
 Then nagivate to http://localhost:8080
@@ -70,3 +70,22 @@ vendor/bin/phpunit -c phpunit.xml --stderr --coverage-html /path/to/coverage/fil
 
 To run code coverage tests a coverage driver has to be installed on your local machine.
 The typical driver which is used is Xdebug.
+
+Tests can either be ran locally, or you can run them on the currently executing
+docker image, or on the vagrant image:
+
+##### Docker
+
+Tests can be ran on the current docker image with the command:
+```
+docker exec scraper php /data/web-scraper/vendor/bin/phpunit -c /data/web-scraper/phpunit.xml --stderr
+```
+
+##### Vagrant
+Tests can also be ran on the vagrant VM box, with the command:
+```
+cd /path/to/repo
+vagrant ssh
+cd /data
+vendor/bin/phpunit -c phpunit.xml --stderr
+```

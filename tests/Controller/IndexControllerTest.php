@@ -2,8 +2,12 @@
 
 namespace Example\Tests\Controller;
 
+use Example\Controller\Constants;
 use Example\Controller\IndexController;
 use Example\Tests\BaseTestCase;
+use Example\Tests\Util\TestCrawler;
+use Exception;
+use GuzzleHttp\Exception\RequestException;
 use Slim\Http\Response;
 
 /**
@@ -16,6 +20,9 @@ use Slim\Http\Response;
 class IndexControllerTest extends BaseTestCase
 {
     /** @const string */
+    const EXPECTED_EXCEPTION_MESSAGE = 'An exception occurred in the request';
+
+    /** @const string */
     const INDEX_ACTION_EXPECTED_TEMPLATE = 'index/index.twig';
 
     /** @const int */
@@ -23,6 +30,9 @@ class IndexControllerTest extends BaseTestCase
 
     /** @const string */
     const MALFORMED_URL = 'ww,malformed.c';
+
+    /** @const string */
+    const VALID_URL = 'http://www.test-request.com';
 
     /** @const array */
     const EXPECTED_RESPONSE_NO_URL_DEFINED = [
@@ -34,6 +44,12 @@ class IndexControllerTest extends BaseTestCase
     const EXPECTED_RESPONSE_MALFORMED_URL = [
         'success' => false,
         'message' => 'supplied URL was not valid.'
+    ];
+
+    /** @const array */
+    const EXPECTED_RESPONSE_EXCEPTION_IN_REQUEST = [
+        'success' => false,
+        'message' => self::EXPECTED_EXCEPTION_MESSAGE
     ];
 
     /**
@@ -92,6 +108,57 @@ class IndexControllerTest extends BaseTestCase
 
         $this->assertEquals(
             self::EXPECTED_RESPONSE_MALFORMED_URL,
+            json_decode($result->getBody()->__toString(), true)
+        );
+    }
+
+    /**
+     * vendor/bin/phpunit -c phpunit.xml --stderr --filter IndexControllerTest::testScrapeActionWithExceptionInRequest
+     */
+    public function testScrapeActionWithExceptionInRequest()
+    {
+        $controller = $this->getController();
+        $this->mockRequest(
+            [ 'REQUEST_METHOD' => 'POST' ],
+            [ 'url' => self::VALID_URL ]
+        );
+
+        $this->set(
+            Constants::CRAWLER,
+            new TestCrawler(false, '', new Exception(self::EXPECTED_EXCEPTION_MESSAGE))
+        );
+
+        $result = $controller->scrapeAction($this->getRequest(), $this->getResponse());
+
+        $this->assertEquals(
+            self::EXPECTED_RESPONSE_EXCEPTION_IN_REQUEST,
+            json_decode($result->getBody()->__toString(), true)
+        );
+    }
+
+    /**
+     * vendor/bin/phpunit -c phpunit.xml --stderr --filter IndexControllerTest::testScrapeActionWithValidResult
+     */
+    public function testScrapeActionWithValidResult()
+    {
+        $this->mockRequest(
+            [ 'REQUEST_METHOD' => 'POST' ],
+            [ 'url' => self::VALID_URL ]
+        );
+
+        $response = $this->render(
+            self::VIEW_WITH_TWO_LINKS_WITH_GOOGLE_ANALYTICS
+        )->getBody()->__toString();
+
+        $this->set(
+            Constants::CRAWLER,
+            new TestCrawler(true, $response)
+        );
+
+        $result = $this->getController()->scrapeAction($this->getRequest(), $this->getResponse());
+
+        $this->assertEquals(
+            self::EXPECTED_JSON_SERIALIZE_RESULT,
             json_decode($result->getBody()->__toString(), true)
         );
     }
