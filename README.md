@@ -1,4 +1,4 @@
-##Web-Scraper
+## Web-Scraper
 
 This project is a simple application which takes a URL as input
 and returns some information about it including:
@@ -11,17 +11,17 @@ and returns some information about it including:
 A website request was deemed secure if the request was carried
 out over the HTTPS protocol.
 
-####Stack used
+#### Stack used
 * PHP 7.0
 * Slim Framework 3.8
 * Twig 2.4
 * PHPUnit 6.3
 
-####Running the project
+#### Running the project
 
 I have provided two ways to run the project.
 
-#####Docker:
+##### Docker:
 The project can be containerised into a docker container which uses alpine image.
 
 To run on docker, execute:
@@ -33,7 +33,7 @@ docker run -d -p 8080:80 webscraper:latest
 
 Then nagivate to http://localhost:8080
 
-#####Vagrant
+##### Vagrant
 The project can also be provisioned using Vagrant.
 
 This creates an ubuntu VM which internally runs docker to run the image.
@@ -48,7 +48,7 @@ Then navigate to: http://10.55.101.10
 
 Currently this setup only supports VirtualBox as its provider.
 
-####Testing
+#### Testing
 
 You can run unit tests by running the command:
 ```
@@ -58,7 +58,7 @@ vendor/bin/phpunit -c phpunit.xml --stderr
 
 There are filter commands for each test in the test suite for running individual tests.
 
-#####Code Coverage
+##### Code Coverage
 
 The code has got 100% test coverage. 
 
